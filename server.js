@@ -50,26 +50,27 @@ app.post('/guests', async (req, res) => {
 
 // Update tamu berdasarkan ID
 // Update guest by email
-app.put('/guests/email/:email', async (req, res) => {
-  const email = req.params.email;
-
+app.put('/guests/email/:email/check-in', async (req, res) => {
   try {
-    console.log('Searching for email:', email);
     const updatedGuest = await Guest.findOneAndUpdate(
-      { Email_Address: { $regex: new RegExp(`^${email}$`, 'i') } },
-      req.body,
+      { "Email_Address": req.params.email },
+      { $set: { check_in: "true" } },
       { new: true }
     );
-    console.log('Found guest:', updatedGuest);
+
     if (!updatedGuest) {
-      return res.status(404).json({ message: 'Guest not found with that email' });
+      return res.status(404).json({ message: "Guest not found with that email" });
     }
 
-    res.json(updatedGuest);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(200).json({
+      message: "Check-in successful",
+      guest: updatedGuest
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
+
 
 
 
