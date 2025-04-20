@@ -4,7 +4,7 @@ const guestSchema = new mongoose.Schema({
   "Nama": { type: String },
   "_id": { type: String },
   "check_in": String,
-  "Email Address": { type: String },
+  "Email_Address": { type: String },
   "Nomor Handphone": { type: String },
   "Fakultas": { type: String },
   "Angkatan Masuk": { type: String },

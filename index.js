@@ -44,7 +44,7 @@ app.post('/add-guest', (req, res) => {
   const newGuest = {
     _id: uuidv4(),
     Timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }),
-    "Email Address": email,
+    "Email_Address": email,
     "Nama": name,
     "Nomor Handphone": phone,
     "Fakultas": faculty,
