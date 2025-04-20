@@ -50,14 +50,18 @@ app.post('/guests', async (req, res) => {
 
 // Update tamu berdasarkan ID
 app.put('/guests/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const updatedGuest = await Guest.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedGuest) return res.status(404).json({ message: 'Guest not found' });
-    res.json(updatedGuest);
+    const updated = await Guest.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updated) {
+      return res.status(404).json({ message: 'Guest not found' });
+    }
+    res.json(updated);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: 'Server error', error: err });
   }
 });
+
 
 // Hapus tamu berdasarkan ID
 app.delete('/guests/:id', async (req, res) => {
