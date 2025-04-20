@@ -51,11 +51,11 @@ app.post('/guests', async (req, res) => {
 // Update tamu berdasarkan ID
 // Update guest by email
 app.put('/guests/email/:email', async (req, res) => {
-  const { email } = req.params;
+  const email = req.params.email;
 
   try {
     const updatedGuest = await Guest.findOneAndUpdate(
-      { Email_Address: { $regex: new RegExp(`^${email}$`, 'i') } }, // case-insensitive
+      { Email_Address: new RegExp(`^${email}$`, 'i') }, // case insensitive match
       req.body,
       { new: true }
     );
