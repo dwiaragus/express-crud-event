@@ -54,12 +54,13 @@ app.put('/guests/email/:email', async (req, res) => {
   const email = req.params.email;
 
   try {
+    console.log('Searching for email:', email);
     const updatedGuest = await Guest.findOneAndUpdate(
-      { Email_Address: new RegExp(`^${email}$`, 'i') }, // case insensitive match
+      { Email_Address: { $regex: new RegExp(`^${email}$`, 'i') } },
       req.body,
       { new: true }
     );
-
+    console.log('Found guest:', updatedGuest);
     if (!updatedGuest) {
       return res.status(404).json({ message: 'Guest not found with that email' });
     }
@@ -69,6 +70,7 @@ app.put('/guests/email/:email', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
 
 
 // Hapus tamu berdasarkan ID
