@@ -52,13 +52,17 @@ app.post('/guests', async (req, res) => {
 app.put('/guests/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const updated = await Guest.findByIdAndUpdate(id, req.body, { new: true });
-    if (!updated) {
+    const updatedGuest = await Guest.findOneAndUpdate(
+      { _id: id }, // pakai findOne!
+      req.body,
+      { new: true }
+    );
+    if (!updatedGuest) {
       return res.status(404).json({ message: 'Guest not found' });
     }
-    res.json(updated);
+    res.json(updatedGuest);
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err });
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
