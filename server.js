@@ -49,17 +49,21 @@ app.post('/guests', async (req, res) => {
 });
 
 // Update tamu berdasarkan ID
-app.put('/guests/:id', async (req, res) => {
-  const { id } = req.params;
+// Update guest by email
+app.put('/guests/email/:email', async (req, res) => {
+  const { email } = req.params;
+
   try {
     const updatedGuest = await Guest.findOneAndUpdate(
-      { _id: id }, // pakai findOne!
+      { Email_Address: { $regex: new RegExp(`^${email}$`, 'i') } }, // case-insensitive
       req.body,
       { new: true }
     );
+
     if (!updatedGuest) {
-      return res.status(404).json({ message: 'Guest not found' });
+      return res.status(404).json({ message: 'Guest not found with that email' });
     }
+
     res.json(updatedGuest);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
