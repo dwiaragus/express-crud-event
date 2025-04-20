@@ -50,7 +50,7 @@ app.post('/guests', async (req, res) => {
 
 // Update tamu berdasarkan ID
 // Update guest by email
-app.put('/guests/email/:email/check-in', async (req, res) => {
+app.put('/guests/email/:email/check_in', async (req, res) => {
   try {
     const updatedGuest = await Guest.findOneAndUpdate(
       { "Email_Address": req.params.email },
@@ -70,8 +70,6 @@ app.put('/guests/email/:email/check-in', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 
 // Hapus tamu berdasarkan ID
@@ -100,6 +98,31 @@ app.get('/guests', async (req, res) => {
   }
 });
 
+// Route untuk mengambil tamu berdasarkan email
+app.get('/guests/email/:email', async (req, res) => {
+  try {
+    const guest = await Guest.findOne({ "Email_Address": req.params.email });
+    if (!guest) {
+      return res.status(404).json({ message: "Guest not found with that email" });
+    }
+    res.status(200).json(guest);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Route untuk mengambil tamu berdasarkan id
+app.get('/guests/:id', async (req, res) => {
+  try {
+    const guest = await Guest.findOne({ "_id": req.params.id });
+    if (!guest) {
+      return res.status(404).json({ message: "Guest not found with that id" });
+    }
+    res.status(200).json(guest);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Mulai server
 app.listen(port, () => {
