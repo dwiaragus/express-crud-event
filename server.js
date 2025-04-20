@@ -17,7 +17,7 @@ const Guest = require('./models/Guest');
 app.use(express.json());
 
 // MongoDB URI
-const uri = 'mongodb+srv://caca:admin123@cluster0.nhdcgk1.mongodb.net/?appName=Cluster0';
+const uri = process.env.MONGO_URI;
 
 // Connect to MongoDB (no need for useNewUrlParser and useUnifiedTopology)
 mongoose.connect(uri,{
@@ -88,5 +88,5 @@ app.get('/guests', async (req, res) => {
 
 // Mulai server
 app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
+  console.log(`Server berjalan di port ${port}`);
 });
